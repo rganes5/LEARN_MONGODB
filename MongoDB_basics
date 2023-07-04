@@ -1,0 +1,136 @@
+Start the mongodb:
+sudo systemctl start mongod
+If failed, then run:
+sudo systemctl daemon-reload
+Verify is started:
+sudo systemctl status mongod
+Begin using MongoDB:
+	mongosh
+Restart MongoDB:
+sudo systemctl restart mongod
+Stop MongoDB:
+sudo systemctl stop mongod
+
+
+
+insert one document:
+db.collectionname.insertOne({})
+
+insert many document:
+db.collectionname.insert([{},{}])
+
+show with format:
+db.collectionname.find().pretty()
+
+show without format:
+db.collectionname.find()
+
+find specific document:
+db.collectionname.find(fieldname:"data").pretty()
+
+count:
+db.collectionname.find().count()
+
+limit:
+db.collectionname.find().limit(count).pretty()
+
+sort in ascending:
+db.collectionname.find().sort({fieldname:1}).pretty()
+
+sort in descending:
+db.collectionname.find().sort({fieldname:-1}).pretty()
+
+fetch particular items with limit:
+db.collectionname.find().skip(lowerbound).limit(upperbound)
+
+Bulk insert:
+var bulk = db.collectionname.initializeUnorderedBulkOp();
+bulk.insert( { first_name: "Sachin", last_name: "Tendulkar" } );
+bulk.insert( { first_name: "Virender", last_name: "Sehwag" } );
+bulk.insert( { first_name: "Shikhar", last_name: "Dhawan" } );
+bulk.insert( { first_name: "Mohammed", last_name: "Shami" } );
+bulk.insert( { first_name: "Shreyas", last_name: "Iyer" } );
+bulk.execute();
+
+FindAndModify:
+db.collectionName.findAndModify({
+  query: { name: "Rohit Lellu" },
+  update: {
+    $set: {
+      name: "Rohit",
+      age: 28,
+    }
+  }
+  new:true
+})
+
+DeleteOne:
+db.collectionname.deleteOne({age:17})
+
+Deletemany:
+db.collectionname.deletemany({age:18})
+db.collectionname.deleteMany({ age: { $gte: 30 } })
+
+Distinct:
+db.collectionname.distinct("name")
+
+filter and limit:
+db.collection.find({}, { _id: 0, name: 1 }).limit(2)
+
+greater than operator:
+sample> db.test1.find({age:{$gte:30}})
+
+combining two quries:
+db.test1.find({ $and: [{ age: { $gte: 30 } }, { batch: "ece" }] }).pretty()
+
+aggregate with example:
+db.test2.aggregate([
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      totalMarks: { $sum: ["$subject1", "$subject2", "$subject3"] }
+    }
+  },
+  {
+    $sort: { totalMarks: -1 }
+  },
+  {
+    $limit: 1
+  }
+])
+
+
+lookup example:
+db.test1.aggregate([
+  {
+    $lookup: {
+      from: "test2",
+      localField: "studentId",
+      foreignField: "_id",
+      as: "studentData"
+    }
+  }
+])
+
+match only doc:
+db.test2.aggregate([
+  {
+    $match: {
+      name: "Bob"
+    }
+  },
+  {
+    $lookup: {
+      from: "weather",
+      localField: "weatherId",
+      foreignField: "_id",
+      as: "studentData"
+    }
+  }
+])
+
+
+
+
+
