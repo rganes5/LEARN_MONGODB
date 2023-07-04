@@ -13,37 +13,37 @@ sudo systemctl stop mongod
 
 
 
-insert one document:
+//insert one document:
 db.collectionname.insertOne({})
 
-insert many document:
+//insert many document:
 db.collectionname.insert([{},{}])
 
-show with format:
+//show with format:
 db.collectionname.find().pretty()
 
-show without format:
+//show without format:
 db.collectionname.find()
 
-find specific document:
+//find specific document:
 db.collectionname.find(fieldname:"data").pretty()
 
-count:
+//count:
 db.collectionname.find().count()
 
-limit:
+//limit:
 db.collectionname.find().limit(count).pretty()
 
-sort in ascending:
+//sort in ascending:
 db.collectionname.find().sort({fieldname:1}).pretty()
 
-sort in descending:
+//sort in descending:
 db.collectionname.find().sort({fieldname:-1}).pretty()
 
-fetch particular items with limit:
+//fetch particular items with limit:
 db.collectionname.find().skip(lowerbound).limit(upperbound)
 
-Bulk insert:
+//Bulk insert:
 var bulk = db.collectionname.initializeUnorderedBulkOp();
 bulk.insert( { first_name: "Sachin", last_name: "Tendulkar" } );
 bulk.insert( { first_name: "Virender", last_name: "Sehwag" } );
@@ -52,7 +52,7 @@ bulk.insert( { first_name: "Mohammed", last_name: "Shami" } );
 bulk.insert( { first_name: "Shreyas", last_name: "Iyer" } );
 bulk.execute();
 
-FindAndModify:
+//FindAndModify:
 db.collectionName.findAndModify({
   query: { name: "Rohit Lellu" },
   update: {
@@ -64,7 +64,7 @@ db.collectionName.findAndModify({
   new:true
 })
 
-DeleteOne:
+//DeleteOne:
 db.collectionname.deleteOne({age:17})
 
 Deletemany:
@@ -83,7 +83,7 @@ sample> db.test1.find({age:{$gte:30}})
 combining two quries:
 db.test1.find({ $and: [{ age: { $gte: 30 } }, { batch: "ece" }] }).pretty()
 
-aggregate with example:
+//aggregate with example:
 db.test2.aggregate([
   {
     $project: {
@@ -101,7 +101,7 @@ db.test2.aggregate([
 ])
 
 
-lookup example:
+//lookup example:
 db.test1.aggregate([
   {
     $lookup: {
@@ -113,7 +113,7 @@ db.test1.aggregate([
   }
 ])
 
-match only doc:
+//match only doc:
 db.test2.aggregate([
   {
     $match: {
