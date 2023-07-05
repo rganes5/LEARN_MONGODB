@@ -67,21 +67,23 @@ db.collectionName.findAndModify({
 //DeleteOne:
 db.collectionname.deleteOne({age:17})
 
-Deletemany:
+//Deletemany:
 db.collectionname.deletemany({age:18})
 db.collectionname.deleteMany({ age: { $gte: 30 } })
 
-Distinct:
+//Distinct:
 db.collectionname.distinct("name")
 
-filter and limit:
+//filter and limit:
 db.collection.find({}, { _id: 0, name: 1 }).limit(2)
 
-greater than operator:
+//greater than operator:
 sample> db.test1.find({age:{$gte:30}})
 
-combining two quries:
+//combining two quries:
 db.test1.find({ $and: [{ age: { $gte: 30 } }, { batch: "ece" }] }).pretty()
+
+//aggregate with example:
 
 //aggregate with example:
 db.test2.aggregate([
@@ -113,7 +115,26 @@ db.test1.aggregate([
   }
 ])
 
-//match only doc:
+
+//lookup example with specified data only:
+db.test2.aggregate([
+  {
+    $lookup: {
+      from: "weather",
+      localField: "weatherId",
+      foreignField: "_id",
+      as: "weather"
+    }
+  },
+  {
+    $match: {
+      weather: { $ne: [] }
+    }
+  }
+])
+
+
+// match only doc:
 db.test2.aggregate([
   {
     $match: {
@@ -129,6 +150,22 @@ db.test2.aggregate([
     }
   }
 ])
+
+//match basics:
+db.test2.aggregate([
+  {
+    $project: {
+      name: 1,
+      section: 1
+    }
+  },
+  {
+    $match: {
+      section: "A"
+    }
+  }
+])
+
 
 
 
