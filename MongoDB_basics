@@ -166,6 +166,32 @@ db.test2.aggregate([
   }
 ])
 
+//print all user whose name start with a alphabet in mongodb:
+
+db.test2.find({ name: { $regex: '^a', $options: 'i' } })
+
+//print a user details who has max age:
+
+test2> db.test2.aggregate([
+{
+$sort:
+{age:-1}},
+{
+$limit:1}
+])
+
+//concat first name and last name:
+db.test1.aggregate([ { $match:{ first_name:{$exists:true} } }, { $project:{ full_names: {$concat:["first_name", " ", "last_name"]}}} ])
+
+//Rename field name
+db.orders.updateMany( {}, {$rename:{"customer":"customer_name"}})
+
+db.orders.updateOne( { customer_name: "Benny" }, { $rename: { "age": "customer_age" } })
+
+
+//Upsert:
+ db.test2.updateOne( { name: "Benny" }, { $set: { subjects: ["Physics", "Chemistry", "Biology", "Maths"] } }, { upsert: false })
+
 
 
 
